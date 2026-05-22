@@ -47,7 +47,7 @@ Every entity and every query uses the attribute key `app` with value `soul-marke
 ### Install
 
 ```bash
-git clone https://github.com/YOUR_HANDLE/soul-marketplace
+git clone https://github.com/The-Kitchen-Lab/soul-marketplace
 cd soul-marketplace
 npm install
 ```
@@ -144,8 +144,8 @@ In a production deployment, integrate [Lit Protocol](https://litprotocol.com/) o
 - **Network:** Arkiv Braga Testnet
 - **PROJECT_ATTRIBUTE:** `soul-marketplace` (on every entity and query)
 - **Entity types:** Soul, License
-- **GitHub:** [github.com/YOUR_HANDLE/soul-marketplace](https://github.com/YOUR_HANDLE/soul-marketplace)
-- **Demo:** [YOUR_DEMO_URL]
+- **GitHub:** [github.com/The-Kitchen-Lab/soul-marketplace](https://github.com/The-Kitchen-Lab/soul-marketplace)
+- **Demo:** [DEPLOYING...]
 
 ---
 
