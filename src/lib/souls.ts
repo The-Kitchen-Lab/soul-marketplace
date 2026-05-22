@@ -10,18 +10,25 @@ function entityToSoul(entity: ArkivEntity): SoulEntity {
   const get = (key: string) =>
     entity.attributes?.find((a) => a.key === key)?.value ?? ''
 
+  // SDK Entity exposes owner/creator as direct fields (not nested under metadata)
+  const raw = entity as unknown as Record<string, unknown>
+
   return {
     key: entity.key,
     name: get('name') || 'Unnamed Soul',
     description: get('description') || '',
     category: get('category') || 'other',
     price: get('price') || '0',
-    creator: entity.metadata?.$creator ?? '',
-    owner: entity.metadata?.$owner ?? '',
+    creator: (raw.creator as string) ?? entity.metadata?.$creator ?? '',
+    owner: (raw.owner as string) ?? entity.metadata?.$owner ?? '',
     forkedFrom: get('forkedFrom') || undefined,
     prompt: (entity.payload?.prompt as string) ?? undefined,
-    createdAt: entity.metadata?.createdAt,
-    expiresAt: entity.metadata?.expiresAt,
+    createdAt: raw.createdAtBlock !== undefined
+      ? Number(raw.createdAtBlock as bigint)
+      : entity.metadata?.createdAt,
+    expiresAt: raw.expiresAtBlock !== undefined
+      ? Number(raw.expiresAtBlock as bigint)
+      : entity.metadata?.expiresAt,
   }
 }
 

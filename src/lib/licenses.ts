@@ -10,16 +10,24 @@ function entityToLicense(entity: ArkivEntity): LicenseEntity {
   const get = (key: string) =>
     entity.attributes?.find((a) => a.key === key)?.value ?? ''
 
-  const expiresAt = entity.metadata?.expiresAt ?? 0
+  // SDK Entity exposes owner/creator as direct fields (not nested under metadata)
+  const raw = entity as unknown as Record<string, unknown>
+
+  const expiresAt = raw.expiresAtBlock !== undefined
+    ? Number(raw.expiresAtBlock as bigint)
+    : entity.metadata?.expiresAt ?? 0
+
   return {
     key: entity.key,
     soulKey: get('soulKey'),
     soulName: get('soulName'),
-    licensee: entity.metadata?.$owner ?? '',
-    creator: entity.metadata?.$creator ?? '',
+    licensee: (raw.owner as string) ?? entity.metadata?.$owner ?? '',
+    creator: (raw.creator as string) ?? entity.metadata?.$creator ?? '',
     tier: (get('tier') as 'personal' | 'commercial') || 'personal',
     expiresAt,
-    createdAt: entity.metadata?.createdAt,
+    createdAt: raw.createdAtBlock !== undefined
+      ? Number(raw.createdAtBlock as bigint)
+      : entity.metadata?.createdAt,
   }
 }
 
