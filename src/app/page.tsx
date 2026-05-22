@@ -33,30 +33,29 @@ export default function MarketplacePage() {
   }, [load])
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-10">
+    <div className="max-w-7xl mx-auto px-6 py-16">
       {/* Hero */}
-      <div className="mb-12 text-center">
-        <div className="inline-flex items-center gap-2 text-xs text-soul-cyan bg-soul-cyan/10 border border-soul-cyan/20 px-3 py-1 rounded-full mb-4">
-          <span className="w-1.5 h-1.5 rounded-full bg-soul-cyan animate-pulse" />
-          Live on Arkiv Braga Testnet
-        </div>
-        <h1 className="text-4xl font-bold text-white mb-3 tracking-tight">
-          AI Souls. Yours to Own.
+      <div className="mb-16">
+        <p className="text-2xs uppercase tracking-label text-lo mb-5">
+          Live · Arkiv Braga Testnet
+        </p>
+        <h1 className="text-display font-light text-hi mb-4">
+          AI Souls.<br />Yours to Own.
         </h1>
-        <p className="text-soul-muted text-lg max-w-xl mx-auto leading-relaxed">
-          Every system prompt is an on-chain entity. The creator is immutable.
-          Licenses expire. Forks trace back. No platform owns your agents.
+        <p className="text-mid text-sm max-w-sm leading-relaxed">
+          Every system prompt is an on-chain entity. Creator is immutable.
+          Licenses expire. Forks trace back.
         </p>
       </div>
 
-      {/* Category filter */}
-      <div className="flex items-center gap-2 flex-wrap mb-8">
+      {/* Category filter — tab underline style */}
+      <div className="flex items-end gap-7 [border-bottom-width:0.5px] border-white/[0.07] mb-10 overflow-x-auto">
         <button
           onClick={() => setSelectedCategory('')}
-          className={`px-3 py-1.5 rounded-lg text-sm transition-colors ${
+          className={`shrink-0 pb-3 text-xs tracking-wide transition-colors duration-150 [border-bottom-width:0.5px] -mb-px ${
             selectedCategory === ''
-              ? 'bg-soul-purple text-white'
-              : 'text-soul-muted hover:text-white bg-soul-card border border-soul-border'
+              ? 'text-hi border-hi'
+              : 'text-lo hover:text-mid border-transparent'
           }`}
         >
           All
@@ -67,10 +66,10 @@ export default function MarketplacePage() {
             onClick={() =>
               setSelectedCategory(cat.id === selectedCategory ? '' : cat.id)
             }
-            className={`px-3 py-1.5 rounded-lg text-sm transition-colors ${
+            className={`shrink-0 pb-3 text-xs tracking-wide transition-colors duration-150 [border-bottom-width:0.5px] -mb-px ${
               selectedCategory === cat.id
-                ? 'bg-soul-purple text-white'
-                : 'text-soul-muted hover:text-white bg-soul-card border border-soul-border'
+                ? 'text-hi border-hi'
+                : 'text-lo hover:text-mid border-transparent'
             }`}
           >
             {cat.label}
@@ -80,37 +79,36 @@ export default function MarketplacePage() {
 
       {/* Grid */}
       {loading ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
           {Array.from({ length: 6 }).map((_, i) => (
             <div
               key={i}
-              className="h-40 rounded-xl bg-soul-card border border-soul-border animate-pulse"
+              className="h-44 bg-surface [border-width:0.5px] border-white/[0.05]"
             />
           ))}
         </div>
       ) : error ? (
-        <div className="text-center py-20">
-          <p className="text-red-400 text-sm mb-3">{error}</p>
+        <div className="py-20">
+          <p className="text-mid text-sm mb-3">{error}</p>
           <button
             onClick={load}
-            className="text-sm text-soul-muted hover:text-white underline"
+            className="text-xs text-lo hover:text-mid underline underline-offset-2 transition-colors"
           >
             Try again
           </button>
         </div>
       ) : souls.length === 0 ? (
-        <div className="text-center py-20">
-          <p className="text-soul-muted text-lg mb-2">No souls found.</p>
-          <p className="text-soul-muted text-sm">
-            Be the first to{' '}
-            <a href="/create" className="text-soul-purple hover:underline">
-              create one
-            </a>
-            .
-          </p>
+        <div className="py-20">
+          <p className="text-mid text-sm mb-2">No souls found.</p>
+          <a
+            href="/create"
+            className="text-xs text-lo hover:text-mid underline underline-offset-2 transition-colors"
+          >
+            Create the first one
+          </a>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
           {souls.map((soul) => (
             <SoulCard key={soul.key} soul={soul} />
           ))}

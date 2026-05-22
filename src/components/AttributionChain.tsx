@@ -3,11 +3,6 @@
 import Link from 'next/link'
 import type { SoulEntity } from '@/types'
 
-function truncateAddr(addr: string) {
-  if (!addr || addr.length < 10) return addr
-  return `${addr.slice(0, 6)}…${addr.slice(-4)}`
-}
-
 function truncateKey(key: string) {
   if (!key) return ''
   return `${key.slice(0, 12)}…`
@@ -17,47 +12,44 @@ export function AttributionChain({ chain }: { chain: SoulEntity[] }) {
   if (!chain || chain.length <= 1) return null
 
   return (
-    <div className="mt-6">
-      <h3 className="text-xs text-soul-muted uppercase tracking-wider mb-3 font-medium">
+    <div className="mt-8">
+      <p className="text-2xs uppercase tracking-label text-lo mb-5">
         Attribution Chain
-      </h3>
+      </p>
       <div className="space-y-0">
         {chain.map((soul, i) => (
           <div key={soul.key} className="flex items-start gap-3">
-            <div className="flex flex-col items-center">
+            <div className="flex flex-col items-center mt-1.5">
               <div
-                className={`w-2.5 h-2.5 rounded-full border-2 mt-1 ${
+                className={`w-1.5 h-1.5 [border-width:0.5px] ${
                   i === 0
-                    ? 'border-soul-purple bg-soul-purple'
-                    : 'border-soul-muted bg-transparent'
+                    ? 'border-hi bg-hi'
+                    : 'border-lo bg-transparent'
                 }`}
               />
               {i < chain.length - 1 && (
-                <div className="w-px h-8 bg-soul-border mt-0.5" />
+                <div className="w-px h-7 bg-white/[0.07] mt-0.5" />
               )}
             </div>
             <div className="pb-2">
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2.5">
                 <Link
                   href={`/soul/${encodeURIComponent(soul.key)}`}
-                  className={`text-sm font-medium hover:underline ${
-                    i === 0 ? 'text-white' : 'text-soul-muted'
+                  className={`text-xs hover:underline underline-offset-2 ${
+                    i === 0 ? 'text-hi' : 'text-mid'
                   }`}
                 >
                   {soul.name}
                 </Link>
                 {i === 0 && (
-                  <span className="text-[10px] text-soul-purple bg-soul-purple/10 border border-soul-purple/20 px-1.5 py-0.5 rounded">
+                  <span className="text-2xs uppercase tracking-label text-lo [border-width:0.5px] border-white/[0.07] px-1.5 py-0.5">
                     current
                   </span>
                 )}
               </div>
-              <div className="text-xs text-soul-muted mt-0.5">
-                <span className="font-mono">{truncateKey(soul.key)}</span>
-                {soul.creator && (
-                  <span className="ml-2">by {truncateAddr(soul.creator)}</span>
-                )}
-              </div>
+              <p className="text-2xs font-mono text-lo mt-0.5">
+                {truncateKey(soul.key)}
+              </p>
             </div>
           </div>
         ))}

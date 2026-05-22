@@ -28,13 +28,16 @@ export default function LibraryPage() {
     }
   }, [address])
 
-  useEffect(() => { load() }, [load])
+  useEffect(() => {
+    load()
+  }, [load])
 
   if (!isConnected) {
     return (
-      <div className="max-w-lg mx-auto px-4 py-20 text-center">
-        <p className="text-white text-xl font-semibold mb-2">Connect to view your library</p>
-        <p className="text-soul-muted text-sm mb-6">
+      <div className="max-w-md mx-auto px-6 py-24">
+        <p className="text-2xs uppercase tracking-label text-lo mb-5">Library</p>
+        <p className="text-hi text-lg font-light mb-2">Connect your wallet</p>
+        <p className="text-mid text-sm mb-8 leading-relaxed">
           Your licenses are stored on-chain. No account needed — just your wallet.
         </p>
         <ConnectButton />
@@ -46,37 +49,49 @@ export default function LibraryPage() {
   const expired = licenses.filter((l) => !isLicenseActive(l))
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-10">
-      <div className="mb-8">
-        <h1 className="text-2xl font-bold text-white mb-1">My Library</h1>
-        <p className="text-soul-muted text-sm">
-          Licenses you own, stored permanently on Arkiv. No platform can revoke them.
+    <div className="max-w-4xl mx-auto px-6 py-16">
+      <div className="mb-10">
+        <p className="text-2xs uppercase tracking-label text-lo mb-5">Library</p>
+        <h1 className="text-2xl font-light text-hi mb-2">My Licenses</h1>
+        <p className="text-mid text-sm leading-relaxed">
+          Licenses stored permanently on Arkiv. No platform can revoke them.
         </p>
       </div>
 
       {loading ? (
-        <div className="space-y-3">
+        <div className="space-y-2">
           {Array.from({ length: 3 }).map((_, i) => (
-            <div key={i} className="h-20 bg-soul-card border border-soul-border rounded-xl animate-pulse" />
+            <div key={i} className="h-16 bg-surface [border-width:0.5px] border-white/[0.05]" />
           ))}
         </div>
       ) : error ? (
-        <div className="text-red-400 text-sm">{error}</div>
+        <div className="py-20">
+          <p className="text-mid text-sm mb-3">{error}</p>
+          <button
+            onClick={load}
+            className="text-xs text-lo hover:text-mid underline underline-offset-2 transition-colors"
+          >
+            Try again
+          </button>
+        </div>
       ) : licenses.length === 0 ? (
-        <div className="text-center py-20">
-          <p className="text-soul-muted text-lg mb-2">No licenses yet.</p>
-          <Link href="/" className="text-soul-purple text-sm hover:underline">
+        <div className="py-20">
+          <p className="text-mid text-sm mb-2">No licenses yet.</p>
+          <Link
+            href="/"
+            className="text-xs text-lo hover:text-mid underline underline-offset-2 transition-colors"
+          >
             Browse the marketplace
           </Link>
         </div>
       ) : (
-        <div className="space-y-6">
+        <div className="space-y-8">
           {active.length > 0 && (
             <section>
-              <h2 className="text-xs text-soul-muted uppercase tracking-wider mb-3 font-medium">
-                Active ({active.length})
-              </h2>
-              <div className="space-y-3">
+              <p className="text-2xs uppercase tracking-label text-lo mb-4">
+                Active · {active.length}
+              </p>
+              <div className="space-y-2">
                 {active.map((lic) => (
                   <LicenseRow key={lic.key} license={lic} active />
                 ))}
@@ -86,10 +101,10 @@ export default function LibraryPage() {
 
           {expired.length > 0 && (
             <section>
-              <h2 className="text-xs text-soul-muted uppercase tracking-wider mb-3 font-medium">
-                Expired ({expired.length})
-              </h2>
-              <div className="space-y-3 opacity-50">
+              <p className="text-2xs uppercase tracking-label text-lo mb-4">
+                Expired · {expired.length}
+              </p>
+              <div className="space-y-2 opacity-40">
                 {expired.map((lic) => (
                   <LicenseRow key={lic.key} license={lic} active={false} />
                 ))}
@@ -104,34 +119,29 @@ export default function LibraryPage() {
 
 function LicenseRow({ license, active }: { license: LicenseEntity; active: boolean }) {
   return (
-    <div className="bg-soul-card border border-soul-border rounded-xl p-4 flex items-center justify-between gap-4">
+    <div className="[border-width:0.5px] border-white/[0.07] p-4 flex items-center justify-between gap-4 hover:border-white/[0.14] transition-colors duration-150">
       <div className="flex-1 min-w-0">
-        <div className="flex items-center gap-2 mb-1">
+        <div className="flex items-center gap-3 mb-1.5">
           <Link
             href={`/soul/${encodeURIComponent(license.soulKey)}`}
-            className="text-white text-sm font-medium hover:text-soul-purple transition-colors truncate"
+            className="text-hi text-sm hover:underline underline-offset-2 truncate"
           >
             {license.soulName || 'Unnamed Soul'}
           </Link>
-          <span
-            className={`shrink-0 text-[10px] px-1.5 py-0.5 rounded border capitalize ${
-              active
-                ? 'text-green-400 bg-green-400/10 border-green-400/20'
-                : 'text-soul-muted bg-soul-card border-soul-border'
-            }`}
-          >
-            {license.tier}
-          </span>
+          <div className="flex items-center gap-1.5 shrink-0">
+            <div className={`w-1 h-1 ${active ? 'bg-hi' : 'bg-lo'}`} />
+            <span className="text-2xs text-lo capitalize">{license.tier}</span>
+          </div>
         </div>
-        <div className="flex items-center gap-3 text-xs text-soul-muted">
-          <span className={active ? 'text-green-400' : 'text-red-400'}>
+        <div className="flex items-center gap-4">
+          <span className={`text-2xs font-mono ${active ? 'text-mid' : 'text-lo'}`}>
             {formatExpiry(license)}
           </span>
           <a
             href={`${BRAGA_EXPLORER}/entity/${license.key}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="font-mono hover:text-white"
+            className="text-2xs font-mono text-lo hover:text-mid transition-colors"
           >
             {license.key.slice(0, 12)}…
           </a>
@@ -141,7 +151,7 @@ function LicenseRow({ license, active }: { license: LicenseEntity; active: boole
       {active && (
         <Link
           href={`/soul/${encodeURIComponent(license.soulKey)}`}
-          className="shrink-0 px-3 py-1.5 bg-soul-purple/20 border border-soul-purple/30 text-soul-purple rounded-lg text-xs hover:bg-soul-purple/30 transition-colors"
+          className="shrink-0 px-3 py-1.5 [border-width:0.5px] border-white/[0.14] text-mid text-xs hover:text-hi hover:border-white/[0.25] transition-colors duration-150"
         >
           Open
         </Link>

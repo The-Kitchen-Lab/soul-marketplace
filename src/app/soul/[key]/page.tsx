@@ -9,6 +9,7 @@ import { createLicense, hasValidLicense, isLicenseActive, formatExpiry } from '@
 import { useArkivWallet } from '@/hooks/useArkivWallet'
 import { AttributionChain } from '@/components/AttributionChain'
 import { SOUL_CATEGORIES, BRAGA_EXPLORER } from '@/lib/constants'
+import { ArrowLeft, Lock, Copy, Check } from 'lucide-react'
 import type { SoulEntity, LicenseEntity } from '@/types'
 
 function truncateAddr(addr: string) {
@@ -30,6 +31,7 @@ export default function SoulDetailPage() {
   const [licenseStatus, setLicenseStatus] = useState<'idle' | 'pending' | 'success' | 'error'>('idle')
   const [licenseError, setLicenseError] = useState('')
   const [showPrompt, setShowPrompt] = useState(false)
+  const [copied, setCopied] = useState(false)
   const [selectedTier, setSelectedTier] = useState<'personal' | 'commercial'>('personal')
   const [selectedDuration, setSelectedDuration] = useState(30)
 
@@ -75,24 +77,33 @@ export default function SoulDetailPage() {
     }
   }
 
+  async function handleCopy() {
+    await navigator.clipboard.writeText(soul?.prompt ?? '')
+    setCopied(true)
+    setTimeout(() => setCopied(false), 1500)
+  }
+
   const category = soul ? SOUL_CATEGORIES.find((c) => c.id === soul.category) : null
   const isOwner = soul && address && soul.creator.toLowerCase() === address.toLowerCase()
 
   if (loading) {
     return (
-      <div className="max-w-3xl mx-auto px-4 py-10">
-        <div className="h-8 bg-soul-card rounded animate-pulse mb-4 w-1/2" />
-        <div className="h-4 bg-soul-card rounded animate-pulse mb-2" />
-        <div className="h-4 bg-soul-card rounded animate-pulse w-3/4" />
+      <div className="max-w-3xl mx-auto px-6 py-16 space-y-3">
+        <div className="h-5 bg-surface [border-width:0.5px] border-white/[0.05] w-1/3" />
+        <div className="h-4 bg-surface [border-width:0.5px] border-white/[0.05]" />
+        <div className="h-4 bg-surface [border-width:0.5px] border-white/[0.05] w-3/4" />
       </div>
     )
   }
 
   if (!soul) {
     return (
-      <div className="max-w-3xl mx-auto px-4 py-20 text-center">
-        <p className="text-soul-muted">Soul not found.</p>
-        <button onClick={() => router.push('/')} className="text-soul-purple text-sm mt-3 hover:underline">
+      <div className="max-w-3xl mx-auto px-6 py-24">
+        <p className="text-mid text-sm mb-3">Soul not found.</p>
+        <button
+          onClick={() => router.push('/')}
+          className="text-xs text-lo hover:text-mid underline underline-offset-2 transition-colors"
+        >
           Back to marketplace
         </button>
       </div>
@@ -102,60 +113,61 @@ export default function SoulDetailPage() {
   const hasAccess = isOwner || (license && isLicenseActive(license))
 
   return (
-    <div className="max-w-3xl mx-auto px-4 py-10">
+    <div className="max-w-3xl mx-auto px-6 py-16">
       {/* Back */}
       <button
         onClick={() => router.push('/')}
-        className="text-soul-muted text-sm hover:text-white mb-6 flex items-center gap-1"
+        className="flex items-center gap-1.5 text-xs text-lo hover:text-mid transition-colors duration-150 mb-10"
       >
-        ← Marketplace
+        <ArrowLeft size={11} strokeWidth={1.5} />
+        Marketplace
       </button>
 
-      <div className="grid md:grid-cols-3 gap-6">
+      <div className="grid md:grid-cols-3 gap-8">
         {/* Main */}
         <div className="md:col-span-2">
           {/* Header */}
-          <div className="flex items-start gap-3 mb-4">
-            <div>
-              <div className="flex items-center gap-2 mb-1">
-                <h1 className="text-2xl font-bold text-white">{soul.name}</h1>
-                {soul.forkedFrom && (
-                  <span className="text-xs text-soul-cyan bg-soul-cyan/10 border border-soul-cyan/20 px-2 py-0.5 rounded-full">
-                    fork
-                  </span>
-                )}
-              </div>
-              <p className="text-soul-muted text-sm">{category?.label ?? soul.category}</p>
+          <div className="mb-6">
+            <div className="flex items-center gap-3 mb-2">
+              <p className="text-2xs uppercase tracking-label text-lo">
+                {category?.label ?? soul.category}
+              </p>
+              {soul.forkedFrom && (
+                <span className="text-2xs text-lo [border-width:0.5px] border-white/[0.07] px-1.5 py-0.5">
+                  fork
+                </span>
+              )}
             </div>
+            <h1 className="text-2xl font-light text-hi tracking-tight">{soul.name}</h1>
           </div>
 
           {soul.description && (
-            <p className="text-gray-300 text-sm leading-relaxed mb-6">
+            <p className="text-mid text-sm leading-relaxed mb-8">
               {soul.description}
             </p>
           )}
 
           {/* Metadata */}
-          <div className="grid grid-cols-2 gap-3 mb-6">
-            <div className="bg-soul-card border border-soul-border rounded-xl p-3">
-              <p className="text-xs text-soul-muted mb-1">$creator</p>
+          <div className="grid grid-cols-2 gap-2 mb-8">
+            <div className="[border-width:0.5px] border-white/[0.07] p-3">
+              <p className="text-2xs uppercase tracking-label text-lo mb-2">Creator</p>
               <a
                 href={`${BRAGA_EXPLORER}/address/${soul.creator}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-xs font-mono text-soul-purple hover:underline"
+                className="text-xs font-mono text-mid hover:text-hi transition-colors underline-offset-2 hover:underline"
               >
                 {truncateAddr(soul.creator)}
               </a>
-              <p className="text-[10px] text-soul-muted mt-0.5">immutable</p>
+              <p className="text-2xs text-lo mt-1 uppercase tracking-label">immutable</p>
             </div>
-            <div className="bg-soul-card border border-soul-border rounded-xl p-3">
-              <p className="text-xs text-soul-muted mb-1">Entity Key</p>
+            <div className="[border-width:0.5px] border-white/[0.07] p-3">
+              <p className="text-2xs uppercase tracking-label text-lo mb-2">Entity Key</p>
               <a
                 href={`${BRAGA_EXPLORER}/entity/${key}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-xs font-mono text-soul-cyan hover:underline break-all"
+                className="text-xs font-mono text-mid hover:text-hi transition-colors hover:underline underline-offset-2 break-all"
               >
                 {key.slice(0, 16)}…
               </a>
@@ -166,38 +178,38 @@ export default function SoulDetailPage() {
           <AttributionChain chain={chain} />
 
           {/* System Prompt */}
-          <div className="mt-6">
+          <div className="mt-8">
             <div className="flex items-center justify-between mb-3">
-              <h3 className="text-sm font-medium text-white">System Prompt</h3>
-              {hasAccess ? (
+              <p className="text-2xs uppercase tracking-label text-lo">System Prompt</p>
+              {hasAccess && (
                 <button
                   onClick={() => setShowPrompt(!showPrompt)}
-                  className="text-xs text-soul-purple hover:underline"
+                  className="text-xs text-lo hover:text-mid transition-colors underline underline-offset-2"
                 >
                   {showPrompt ? 'Hide' : 'Reveal'}
                 </button>
-              ) : (
-                <span className="text-xs text-soul-muted">🔒 License required</span>
               )}
             </div>
+
             {hasAccess && showPrompt ? (
-              <div className="bg-soul-card border border-soul-border rounded-xl p-4 relative">
-                <pre className="text-xs text-gray-300 font-mono whitespace-pre-wrap break-words leading-relaxed">
+              <div className="[border-width:0.5px] border-white/[0.07] relative">
+                <pre className="text-xs text-mid font-mono whitespace-pre-wrap break-words leading-relaxed p-5">
                   {soul.prompt ?? 'No prompt content found.'}
                 </pre>
                 <button
-                  onClick={() => navigator.clipboard.writeText(soul.prompt ?? '')}
-                  className="absolute top-3 right-3 text-xs text-soul-muted hover:text-white bg-soul-bg px-2 py-1 rounded border border-soul-border"
+                  onClick={handleCopy}
+                  className="absolute top-3 right-3 flex items-center gap-1.5 text-2xs text-lo hover:text-mid bg-canvas [border-width:0.5px] border-white/[0.07] px-2 py-1 transition-colors duration-150"
                 >
-                  Copy
+                  {copied ? <Check size={9} strokeWidth={1.5} /> : <Copy size={9} strokeWidth={1.5} />}
+                  {copied ? 'Copied' : 'Copy'}
                 </button>
               </div>
             ) : (
-              <div className="bg-soul-card border border-soul-border rounded-xl p-8 text-center">
-                <div className="text-2xl mb-2">🔐</div>
-                <p className="text-soul-muted text-sm">
+              <div className="[border-width:0.5px] border-white/[0.07] p-10 flex flex-col items-center gap-3">
+                <Lock size={14} strokeWidth={1} className="text-lo" />
+                <p className="text-xs text-lo text-center">
                   {isOwner
-                    ? 'You are the creator — connect above to reveal.'
+                    ? 'You are the creator — connect to reveal.'
                     : 'Acquire a license to access the system prompt.'}
                 </p>
               </div>
@@ -206,47 +218,50 @@ export default function SoulDetailPage() {
         </div>
 
         {/* Sidebar */}
-        <div className="space-y-4">
-          {/* License status */}
+        <div className="space-y-3">
+          {/* Status indicators */}
           {license && isLicenseActive(license) && (
-            <div className="bg-green-500/10 border border-green-500/30 rounded-xl p-4">
-              <p className="text-green-400 text-sm font-medium">✓ Licensed</p>
-              <p className="text-xs text-soul-muted mt-1 capitalize">
+            <div className="[border-width:0.5px] border-white/[0.07] p-4">
+              <div className="flex items-center gap-1.5 mb-1.5">
+                <div className="w-1 h-1 bg-hi" />
+                <p className="text-xs text-hi">Licensed</p>
+              </div>
+              <p className="text-2xs text-lo capitalize">
                 {license.tier} · {formatExpiry(license)}
               </p>
             </div>
           )}
 
           {isOwner && (
-            <div className="bg-soul-purple/10 border border-soul-purple/30 rounded-xl p-4">
-              <p className="text-soul-purple text-sm font-medium">Your Soul</p>
-              <p className="text-xs text-soul-muted mt-1">
-                You are the immutable <code>$creator</code> of this entity.
+            <div className="[border-width:0.5px] border-white/[0.07] p-4">
+              <p className="text-xs text-hi mb-1">Your Soul</p>
+              <p className="text-2xs text-lo leading-relaxed">
+                You are the immutable <code className="font-mono text-mid">$creator</code>.
               </p>
             </div>
           )}
 
           {/* Acquire License */}
           {!isOwner && (
-            <div className="bg-soul-card border border-soul-border rounded-xl p-4">
-              <h3 className="text-sm font-semibold text-white mb-3">Get License</h3>
+            <div className="[border-width:0.5px] border-white/[0.07] p-4">
+              <p className="text-2xs uppercase tracking-label text-lo mb-4">Get License</p>
 
               {!isConnected ? (
                 <ConnectButton />
               ) : (
                 <>
                   {/* Tier */}
-                  <div className="mb-3">
-                    <p className="text-xs text-soul-muted mb-2">License type</p>
-                    <div className="grid grid-cols-2 gap-2">
+                  <div className="mb-4">
+                    <p className="text-2xs text-lo mb-2">Type</p>
+                    <div className="grid grid-cols-2 gap-1.5">
                       {(['personal', 'commercial'] as const).map((tier) => (
                         <button
                           key={tier}
                           onClick={() => setSelectedTier(tier)}
-                          className={`py-1.5 rounded-lg text-xs capitalize transition-colors border ${
+                          className={`py-2 text-xs capitalize transition-colors duration-150 [border-width:0.5px] ${
                             selectedTier === tier
-                              ? 'border-soul-purple bg-soul-purple/10 text-white'
-                              : 'border-soul-border text-soul-muted hover:text-white'
+                              ? 'border-white/[0.28] text-hi bg-white/[0.04]'
+                              : 'border-white/[0.07] text-lo hover:text-mid hover:border-white/[0.14]'
                           }`}
                         >
                           {tier}
@@ -256,17 +271,17 @@ export default function SoulDetailPage() {
                   </div>
 
                   {/* Duration */}
-                  <div className="mb-4">
-                    <p className="text-xs text-soul-muted mb-2">Duration</p>
+                  <div className="mb-5">
+                    <p className="text-2xs text-lo mb-2">Duration</p>
                     <div className="grid grid-cols-3 gap-1.5">
                       {[30, 90, 365].map((days) => (
                         <button
                           key={days}
                           onClick={() => setSelectedDuration(days)}
-                          className={`py-1.5 rounded-lg text-xs transition-colors border ${
+                          className={`py-2 text-xs transition-colors duration-150 [border-width:0.5px] ${
                             selectedDuration === days
-                              ? 'border-soul-purple bg-soul-purple/10 text-white'
-                              : 'border-soul-border text-soul-muted hover:text-white'
+                              ? 'border-white/[0.28] text-hi bg-white/[0.04]'
+                              : 'border-white/[0.07] text-lo hover:text-mid hover:border-white/[0.14]'
                           }`}
                         >
                           {days === 365 ? '1yr' : `${days}d`}
@@ -276,24 +291,25 @@ export default function SoulDetailPage() {
                   </div>
 
                   {licenseError && (
-                    <p className="text-red-400 text-xs mb-3">{licenseError}</p>
+                    <p className="text-xs text-mid mb-3 leading-relaxed">{licenseError}</p>
                   )}
 
                   {licenseStatus === 'success' ? (
-                    <p className="text-green-400 text-sm text-center py-2">
-                      License created! ✓
-                    </p>
+                    <div className="flex items-center gap-1.5 py-2">
+                      <div className="w-1 h-1 bg-hi" />
+                      <p className="text-xs text-hi">License created</p>
+                    </div>
                   ) : (
                     <button
                       onClick={handleLicense}
                       disabled={licenseStatus === 'pending'}
-                      className="w-full py-2.5 bg-soul-purple text-white rounded-lg text-sm hover:bg-soul-purple/90 disabled:opacity-50 transition-colors"
+                      className="w-full py-2.5 bg-hi text-canvas text-xs font-medium hover:bg-mid disabled:opacity-30 disabled:cursor-not-allowed transition-colors duration-150"
                     >
                       {licenseStatus === 'pending' ? 'Creating…' : 'Acquire License'}
                     </button>
                   )}
 
-                  <p className="text-[10px] text-soul-muted text-center mt-2">
+                  <p className="text-2xs text-lo text-center mt-3">
                     License stored on-chain. Ownership is yours.
                   </p>
                 </>
@@ -302,18 +318,18 @@ export default function SoulDetailPage() {
           )}
 
           {/* Fork */}
-          <div className="bg-soul-card border border-soul-border rounded-xl p-4">
-            <h3 className="text-sm font-semibold text-white mb-1">Fork this Soul</h3>
-            <p className="text-xs text-soul-muted mb-3">
-              Attribution chain preserved. The original creator is always visible.
+          <div className="[border-width:0.5px] border-white/[0.07] p-4">
+            <p className="text-2xs uppercase tracking-label text-lo mb-1.5">Fork</p>
+            <p className="text-2xs text-lo leading-relaxed mb-4">
+              Attribution chain preserved. Original creator always visible.
             </p>
             <button
               onClick={() =>
                 router.push(`/create?forkedFrom=${encodeURIComponent(key)}`)
               }
-              className="w-full py-2 bg-soul-card border border-soul-border text-soul-muted rounded-lg text-sm hover:text-white hover:border-soul-cyan/50 transition-colors"
+              className="w-full py-2 [border-width:0.5px] border-white/[0.14] text-mid text-xs hover:text-hi hover:border-white/[0.25] transition-colors duration-150"
             >
-              Fork → Create
+              Fork this Soul
             </button>
           </div>
         </div>

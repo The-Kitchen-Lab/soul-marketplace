@@ -4,37 +4,32 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { ConnectButton } from '@rainbow-me/rainbowkit'
 
+const NAV_LINKS = [
+  { href: '/', label: 'Marketplace' },
+  { href: '/create', label: 'Create' },
+  { href: '/library', label: 'Library' },
+]
+
 export function NavBar() {
   const pathname = usePathname()
 
-  const links = [
-    { href: '/', label: 'Marketplace' },
-    { href: '/create', label: 'Create Soul' },
-    { href: '/library', label: 'My Library' },
-  ]
-
   return (
-    <nav className="border-b border-soul-border bg-soul-bg/80 backdrop-blur sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
-        <div className="flex items-center gap-8">
-          <Link href="/" className="flex items-center gap-2">
-            <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-soul-purple to-soul-cyan flex items-center justify-center text-sm font-bold text-white">
-              ψ
-            </div>
-            <span className="font-semibold text-white text-sm tracking-tight">
-              Soul Marketplace
-            </span>
+    <nav className="sticky top-0 z-50 [border-bottom-width:0.5px] border-white/[0.07] bg-canvas/95 backdrop-blur-sm">
+      <div className="max-w-7xl mx-auto px-6 h-12 flex items-center justify-between">
+
+        {/* Left: logotype + nav */}
+        <div className="flex items-center gap-10">
+          <Link href="/" className="text-hi font-medium text-sm tracking-tight">
+            Soul
           </Link>
 
-          <div className="hidden md:flex items-center gap-1">
-            {links.map(({ href, label }) => (
+          <div className="hidden md:flex items-center gap-7">
+            {NAV_LINKS.map(({ href, label }) => (
               <Link
                 key={href}
                 href={href}
-                className={`px-3 py-1.5 rounded-md text-sm transition-colors ${
-                  pathname === href
-                    ? 'text-white bg-white/10'
-                    : 'text-soul-muted hover:text-white hover:bg-white/5'
+                className={`text-xs tracking-wide transition-colors duration-150 ${
+                  pathname === href ? 'text-hi' : 'text-mid hover:text-hi'
                 }`}
               >
                 {label}
@@ -43,11 +38,37 @@ export function NavBar() {
           </div>
         </div>
 
-        <ConnectButton
-          chainStatus="icon"
-          showBalance={false}
-          accountStatus="address"
-        />
+        {/* Right: wallet */}
+        <ConnectButton.Custom>
+          {({ account, openAccountModal, openConnectModal, mounted }) => {
+            if (!mounted) {
+              return <div className="h-7 w-16" aria-hidden="true" />
+            }
+
+            if (!account) {
+              return (
+                <button
+                  type="button"
+                  onClick={openConnectModal}
+                  className="[border-width:0.5px] border-white/[0.07] hover:border-white/[0.14] px-3 h-7 text-2xs tracking-label uppercase text-lo hover:text-mid transition-colors duration-150"
+                >
+                  Connect
+                </button>
+              )
+            }
+
+            return (
+              <button
+                type="button"
+                onClick={openAccountModal}
+                className="font-mono text-xs text-mid hover:text-hi transition-colors duration-150"
+              >
+                {account.displayName}
+              </button>
+            )
+          }}
+        </ConnectButton.Custom>
+
       </div>
     </nav>
   )

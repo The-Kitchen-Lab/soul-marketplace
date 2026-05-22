@@ -28,6 +28,7 @@ function CreateSoulForm() {
     prompt: '',
     forkedFrom: '',
   })
+
   useEffect(() => {
     const forkedFrom = searchParams.get('forkedFrom')
     if (forkedFrom) update('forkedFrom', forkedFrom)
@@ -73,9 +74,10 @@ function CreateSoulForm() {
 
   if (!isConnected) {
     return (
-      <div className="max-w-lg mx-auto px-4 py-20 text-center">
-        <p className="text-white text-xl font-semibold mb-2">Connect your wallet</p>
-        <p className="text-soul-muted text-sm mb-6">
+      <div className="max-w-md mx-auto px-6 py-24">
+        <p className="text-2xs uppercase tracking-label text-lo mb-5">Connect Wallet</p>
+        <p className="text-hi text-lg font-light mb-2">Connect your wallet</p>
+        <p className="text-mid text-sm mb-8 leading-relaxed">
           You need a wallet connected to the Arkiv Braga testnet to create a Soul.
         </p>
         <ConnectButton />
@@ -85,32 +87,28 @@ function CreateSoulForm() {
 
   if (status === 'success') {
     return (
-      <div className="max-w-lg mx-auto px-4 py-20 text-center">
-        <div className="w-14 h-14 rounded-full bg-green-500/10 border border-green-500/30 flex items-center justify-center mx-auto mb-5 text-2xl">
-          ✓
-        </div>
-        <h2 className="text-white text-2xl font-bold mb-2">Soul Created</h2>
-        <p className="text-soul-muted text-sm mb-6">
-          Your system prompt is now a permanent on-chain entity. The attribution is immutable.
+      <div className="max-w-md mx-auto px-6 py-24">
+        <p className="text-2xs uppercase tracking-label text-lo mb-5">Soul Created</p>
+        <h2 className="text-hi text-2xl font-light mb-2">On-chain.</h2>
+        <p className="text-mid text-sm mb-8 leading-relaxed">
+          Your system prompt is a permanent entity. Attribution is immutable.
         </p>
-        <div className="bg-soul-card border border-soul-border rounded-xl p-4 text-left mb-6 space-y-2">
-          <div>
-            <span className="text-xs text-soul-muted">Entity Key</span>
-            <p className="text-xs font-mono text-soul-cyan break-all mt-0.5">
-              {entityKey}
-            </p>
+
+        <div className="[border-width:0.5px] border-white/[0.07] mb-8">
+          <div className="p-4 [border-bottom-width:0.5px] border-white/[0.07]">
+            <p className="text-2xs uppercase tracking-label text-lo mb-2">Entity Key</p>
+            <p className="text-xs font-mono text-mid break-all">{entityKey}</p>
           </div>
-          <div>
-            <span className="text-xs text-soul-muted">Tx Hash</span>
-            <p className="text-xs font-mono text-soul-purple break-all mt-0.5">
-              {txHash}
-            </p>
+          <div className="p-4">
+            <p className="text-2xs uppercase tracking-label text-lo mb-2">Tx Hash</p>
+            <p className="text-xs font-mono text-mid break-all">{txHash}</p>
           </div>
         </div>
-        <div className="flex gap-3 justify-center">
+
+        <div className="flex gap-3">
           <button
             onClick={() => router.push(`/soul/${encodeURIComponent(entityKey)}`)}
-            className="px-4 py-2 bg-soul-purple text-white rounded-lg text-sm hover:bg-soul-purple/90"
+            className="px-5 py-2.5 bg-hi text-canvas text-xs font-medium hover:bg-mid transition-colors duration-150"
           >
             View Soul
           </button>
@@ -119,7 +117,7 @@ function CreateSoulForm() {
               setStatus('idle')
               setForm({ name: '', description: '', category: 'coding', price: '0', prompt: '', forkedFrom: '' })
             }}
-            className="px-4 py-2 bg-soul-card border border-soul-border text-soul-muted rounded-lg text-sm hover:text-white"
+            className="px-5 py-2.5 [border-width:0.5px] border-white/[0.14] text-mid text-xs hover:text-hi hover:border-white/[0.25] transition-colors duration-150"
           >
             Create Another
           </button>
@@ -129,33 +127,34 @@ function CreateSoulForm() {
   }
 
   return (
-    <div className="max-w-2xl mx-auto px-4 py-10">
-      <div className="mb-8">
-        <h1 className="text-2xl font-bold text-white mb-1">Create a Soul</h1>
-        <p className="text-soul-muted text-sm">
+    <div className="max-w-xl mx-auto px-6 py-16">
+      <div className="mb-10">
+        <p className="text-2xs uppercase tracking-label text-lo mb-5">New Soul</p>
+        <h1 className="text-2xl font-light text-hi mb-2">Create a Soul</h1>
+        <p className="text-mid text-sm leading-relaxed">
           Your system prompt becomes a permanent on-chain entity. You are{' '}
-          <code className="text-soul-cyan">$creator</code> — immutably, forever.
+          <code className="text-hi font-mono text-xs">$creator</code> — immutably, forever.
         </p>
       </div>
 
-      <form onSubmit={handleSubmit} className="space-y-5">
+      <form onSubmit={handleSubmit} className="space-y-7">
         {/* Name */}
         <div>
-          <label className="block text-sm text-white mb-1.5 font-medium">
-            Name <span className="text-red-400">*</span>
+          <label className="block text-2xs uppercase tracking-label text-lo mb-2.5">
+            Name <span className="text-lo">*</span>
           </label>
           <input
             type="text"
             value={form.name}
             onChange={(e) => update('name', e.target.value)}
             placeholder="e.g. Senior Rust Engineer"
-            className="w-full bg-soul-card border border-soul-border rounded-lg px-4 py-2.5 text-sm text-white placeholder:text-soul-muted focus:outline-none focus:border-soul-purple transition-colors"
+            className="w-full bg-surface [border-width:0.5px] border-white/[0.07] px-4 py-3 text-sm text-hi placeholder:text-lo focus:outline-none focus:border-white/[0.25] transition-colors duration-150"
           />
         </div>
 
         {/* Description */}
         <div>
-          <label className="block text-sm text-white mb-1.5 font-medium">
+          <label className="block text-2xs uppercase tracking-label text-lo mb-2.5">
             Description
           </label>
           <input
@@ -163,25 +162,25 @@ function CreateSoulForm() {
             value={form.description}
             onChange={(e) => update('description', e.target.value)}
             placeholder="What does this agent specialize in?"
-            className="w-full bg-soul-card border border-soul-border rounded-lg px-4 py-2.5 text-sm text-white placeholder:text-soul-muted focus:outline-none focus:border-soul-purple transition-colors"
+            className="w-full bg-surface [border-width:0.5px] border-white/[0.07] px-4 py-3 text-sm text-hi placeholder:text-lo focus:outline-none focus:border-white/[0.25] transition-colors duration-150"
           />
         </div>
 
         {/* Category */}
         <div>
-          <label className="block text-sm text-white mb-1.5 font-medium">
+          <label className="block text-2xs uppercase tracking-label text-lo mb-3">
             Category
           </label>
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
             {SOUL_CATEGORIES.map((cat) => (
               <button
                 key={cat.id}
                 type="button"
                 onClick={() => update('category', cat.id)}
-                className={`px-3 py-2 rounded-lg text-sm text-left transition-colors border ${
+                className={`px-3 py-2.5 text-xs text-left transition-colors duration-150 [border-width:0.5px] ${
                   form.category === cat.id
-                    ? 'border-soul-purple bg-soul-purple/10 text-white'
-                    : 'border-soul-border bg-soul-card text-soul-muted hover:text-white'
+                    ? 'border-white/[0.28] text-hi bg-white/[0.04]'
+                    : 'border-white/[0.07] text-lo hover:text-mid hover:border-white/[0.14]'
                 }`}
               >
                 {cat.label}
@@ -192,42 +191,41 @@ function CreateSoulForm() {
 
         {/* System Prompt */}
         <div>
-          <label className="block text-sm text-white mb-1.5 font-medium">
-            System Prompt <span className="text-red-400">*</span>
+          <label className="block text-2xs uppercase tracking-label text-lo mb-2.5">
+            System Prompt <span className="text-lo">*</span>
           </label>
           <textarea
             value={form.prompt}
             onChange={(e) => update('prompt', e.target.value)}
             placeholder="You are a senior Rust engineer with 10 years of experience..."
             rows={10}
-            className="w-full bg-soul-card border border-soul-border rounded-lg px-4 py-3 text-sm text-white placeholder:text-soul-muted focus:outline-none focus:border-soul-purple transition-colors font-mono resize-none"
+            className="w-full bg-surface [border-width:0.5px] border-white/[0.07] px-4 py-3 text-sm text-hi placeholder:text-lo focus:outline-none focus:border-white/[0.25] transition-colors duration-150 font-mono resize-none"
           />
-          <p className="text-xs text-soul-muted mt-1.5">
-            Stored on-chain. Visible to licensed users only after acquiring a license.
+          <p className="text-2xs text-lo mt-2">
+            Stored on-chain. Visible to licensed users only.
           </p>
         </div>
 
         {/* Fork from */}
         <div>
-          <label className="block text-sm text-white mb-1.5 font-medium">
-            Fork from{' '}
-            <span className="text-soul-muted font-normal">(optional)</span>
+          <label className="block text-2xs uppercase tracking-label text-lo mb-2.5">
+            Fork From{' '}
+            <span className="text-lo font-normal normal-case tracking-normal">(optional)</span>
           </label>
           <input
             type="text"
             value={form.forkedFrom}
             onChange={(e) => update('forkedFrom', e.target.value)}
             placeholder="Entity key of the original soul"
-            className="w-full bg-soul-card border border-soul-border rounded-lg px-4 py-2.5 text-sm text-white placeholder:text-soul-muted focus:outline-none focus:border-soul-purple transition-colors font-mono"
+            className="w-full bg-surface [border-width:0.5px] border-white/[0.07] px-4 py-3 text-sm text-hi placeholder:text-lo focus:outline-none focus:border-white/[0.25] transition-colors duration-150 font-mono"
           />
-          <p className="text-xs text-soul-muted mt-1.5">
-            Attribution chain is preserved on-chain. The original creator's{' '}
-            <code>$creator</code> remains immutable.
+          <p className="text-2xs text-lo mt-2">
+            Attribution chain preserved on-chain.
           </p>
         </div>
 
         {error && (
-          <div className="text-red-400 text-sm bg-red-400/10 border border-red-400/20 rounded-lg px-4 py-2.5">
+          <div className="text-mid text-xs [border-width:0.5px] border-white/[0.14] px-4 py-3">
             {error}
           </div>
         )}
@@ -235,9 +233,9 @@ function CreateSoulForm() {
         <button
           type="submit"
           disabled={status === 'pending'}
-          className="w-full py-3 bg-soul-purple text-white rounded-lg font-medium text-sm hover:bg-soul-purple/90 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+          className="w-full py-3 bg-hi text-canvas font-medium text-sm hover:bg-mid disabled:opacity-30 disabled:cursor-not-allowed transition-colors duration-150"
         >
-          {status === 'pending' ? 'Creating Soul…' : 'Create Soul on Arkiv'}
+          {status === 'pending' ? 'Creating…' : 'Create Soul'}
         </button>
       </form>
     </div>
