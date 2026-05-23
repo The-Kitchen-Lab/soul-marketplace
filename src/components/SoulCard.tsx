@@ -66,7 +66,7 @@ export function SoulCard({ soul }: { soul: SoulEntity }) {
           </span>
           {price && (
             <span className="text-2xs font-mono text-lo">
-              {price} ETH
+              ${price}
             </span>
           )}
         </div>
