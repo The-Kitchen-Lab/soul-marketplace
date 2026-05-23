@@ -151,6 +151,6 @@ In a production deployment, integrate [Lit Protocol](https://litprotocol.com/) o
 
 ## Team
 
-| Name | GitHub | Wallet |
-|------|--------|--------|
-| Yiğit Gülabiğül | @Zedit42 | YOUR_WALLET |
+| Name | Telegram |
+|------|----------|
+| Yiğit Gülabiğül | @zedit42 |
