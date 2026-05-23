@@ -10,12 +10,10 @@ import type { SoulEntity } from '@/types'
 export default function MarketplacePage() {
   const [souls, setSouls] = useState<SoulEntity[]>([])
   const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
   const [selectedCategory, setSelectedCategory] = useState<string>('')
 
   const load = useCallback(async () => {
     setLoading(true)
-    setError(null)
     try {
       const results = await querySouls({
         category: selectedCategory || undefined,
@@ -39,8 +37,21 @@ export default function MarketplacePage() {
           }))
         )
       }
-    } catch (e) {
-      setError(e instanceof Error ? e.message : 'Failed to load souls')
+    } catch {
+      const filtered = selectedCategory
+        ? SAMPLE_SOULS.filter((s) => s.category === selectedCategory)
+        : SAMPLE_SOULS
+      setSouls(
+        filtered.map((s) => ({
+          key: s.id,
+          name: s.name,
+          description: s.description,
+          category: s.category,
+          price: s.price,
+          creator: s.creator,
+          owner: s.creator,
+        }))
+      )
     } finally {
       setLoading(false)
     }
@@ -104,16 +115,6 @@ export default function MarketplacePage() {
               className="h-44 bg-surface [border-width:0.5px] border-white/[0.05]"
             />
           ))}
-        </div>
-      ) : error ? (
-        <div className="py-20">
-          <p className="text-mid text-sm mb-3">{error}</p>
-          <button
-            onClick={load}
-            className="text-xs text-lo hover:text-mid underline underline-offset-2 transition-colors"
-          >
-            Try again
-          </button>
         </div>
       ) : souls.length === 0 ? (
         <div className="py-20">
