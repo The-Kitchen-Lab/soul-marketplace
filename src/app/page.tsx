@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useCallback } from 'react'
 import { SoulCard } from '@/components/SoulCard'
-import { SmokeBackground } from '@/components/SmokeBackground'
 import { querySouls } from '@/lib/souls'
 import { SOUL_CATEGORIES } from '@/lib/constants'
 import { SAMPLE_SOULS } from '@/data/souls'
@@ -63,12 +62,6 @@ export default function MarketplacePage() {
   }, [load])
 
   return (
-    <div className="relative min-h-screen">
-      {/* Smoke background — fixed, behind everything */}
-      <div className="fixed inset-0 -z-10 opacity-40 pointer-events-none">
-        <SmokeBackground smokeColor="#6b21a8" />
-      </div>
-
     <div className="max-w-7xl mx-auto px-6 py-16">
       {/* Hero */}
       <div className="mb-16">
@@ -140,7 +133,6 @@ export default function MarketplacePage() {
           ))}
         </div>
       )}
-    </div>
     </div>
   )
 }

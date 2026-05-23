@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import { Providers } from '@/components/Providers'
 import { NavBar } from '@/components/NavBar'
+import { SmokeBackground } from '@/components/SmokeBackground'
 import './globals.css'
 
 const inter = Inter({
@@ -21,7 +22,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" className={inter.variable} suppressHydrationWarning>
       <body>
         <Providers>
-          <div className="flex flex-col min-h-screen bg-canvas">
+          <div className="fixed inset-0 opacity-40 pointer-events-none">
+            <SmokeBackground smokeColor="#6b21a8" />
+          </div>
+          <div className="relative z-10 flex flex-col min-h-screen">
             <NavBar />
             <main className="flex-1">{children}</main>
           </div>
