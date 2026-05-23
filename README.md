@@ -145,7 +145,7 @@ In a production deployment, integrate [Lit Protocol](https://litprotocol.com/) o
 - **PROJECT_ATTRIBUTE:** `soulstore` (on every entity and query)
 - **Entity types:** Soul, License
 - **GitHub:** [github.com/The-Kitchen-Lab/soulstore](https://github.com/The-Kitchen-Lab/soulstore)
-- **Demo:** [DEPLOYING...]
+- **Demo:** [soul-marketplace.vercel.app](https://soul-marketplace.vercel.app)
 
 ---
 
