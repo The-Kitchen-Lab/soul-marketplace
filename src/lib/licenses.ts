@@ -13,8 +13,11 @@ function entityToLicense(entity: ArkivEntity): LicenseEntity {
   // SDK Entity exposes owner/creator as direct fields (not nested under metadata)
   const raw = entity as unknown as Record<string, unknown>
 
-  const expiresAt = raw.expiresAtBlock !== undefined
-    ? Number(raw.expiresAtBlock as bigint)
+  // expiresAt stored as unix timestamp in attributes (preferred).
+  // expiresAtBlock is a block number, not a timestamp — don't use it as one.
+  const expiresAtAttr = get('expiresAt')
+  const expiresAt = expiresAtAttr
+    ? Number(expiresAtAttr)
     : entity.metadata?.expiresAt ?? 0
 
   return {
@@ -48,6 +51,7 @@ export async function createLicense(
       { key: 'soulKey', value: input.soulKey },
       { key: 'soulName', value: input.soulName },
       { key: 'tier', value: input.tier },
+      { key: 'expiresAt', value: String(Math.floor(Date.now() / 1000) + input.durationDays * DAY_SECS) },
     ],
     expiresIn: input.durationDays * DAY_SECS,
   })
