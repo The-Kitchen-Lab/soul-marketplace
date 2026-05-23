@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import { useAccount } from 'wagmi'
 import { ConnectButton } from '@rainbow-me/rainbowkit'
-import { getSoulWithPrompt, getAttributionChain } from '@/lib/souls'
+import { getSoulWithPrompt, getAttributionChain, updateSoulPrompt } from '@/lib/souls'
 import { createLicense, hasValidLicense, isLicenseActive, formatExpiry } from '@/lib/licenses'
 import { useArkivWallet } from '@/hooks/useArkivWallet'
 import { AttributionChain } from '@/components/AttributionChain'
@@ -34,6 +34,10 @@ export default function SoulDetailPage() {
   const [copied, setCopied] = useState(false)
   const [selectedTier, setSelectedTier] = useState<'personal' | 'commercial'>('personal')
   const [selectedDuration, setSelectedDuration] = useState(30)
+  const [isEditingPrompt, setIsEditingPrompt] = useState(false)
+  const [editPromptText, setEditPromptText] = useState('')
+  const [saveStatus, setSaveStatus] = useState<'idle' | 'pending' | 'success' | 'error'>('idle')
+  const [saveError, setSaveError] = useState('')
 
   const load = useCallback(async () => {
     setLoading(true)
@@ -74,6 +78,21 @@ export default function SoulDetailPage() {
     } catch (e) {
       setLicenseError(e instanceof Error ? e.message : 'Transaction failed')
       setLicenseStatus('error')
+    }
+  }
+
+  async function handleSavePrompt() {
+    if (!arkivWallet || !soul) return
+    setSaveStatus('pending')
+    setSaveError('')
+    try {
+      await updateSoulPrompt(arkivWallet, soul, editPromptText)
+      setSaveStatus('idle')
+      setIsEditingPrompt(false)
+      await load()
+    } catch (e) {
+      setSaveError(e instanceof Error ? e.message : 'Update failed')
+      setSaveStatus('error')
     }
   }
 
@@ -181,17 +200,62 @@ export default function SoulDetailPage() {
           <div className="mt-8">
             <div className="flex items-center justify-between mb-3">
               <p className="text-2xs uppercase tracking-label text-lo">System Prompt</p>
-              {hasAccess && (
-                <button
-                  onClick={() => setShowPrompt(!showPrompt)}
-                  className="text-xs text-lo hover:text-mid transition-colors underline underline-offset-2"
-                >
-                  {showPrompt ? 'Hide' : 'Reveal'}
-                </button>
-              )}
+              <div className="flex items-center gap-3">
+                {isOwner && !isEditingPrompt && (
+                  <button
+                    onClick={() => {
+                      setEditPromptText(soul.prompt ?? '')
+                      setIsEditingPrompt(true)
+                    }}
+                    className="text-xs text-lo hover:text-mid transition-colors underline underline-offset-2"
+                  >
+                    {soul.prompt ? 'Edit' : 'Set Prompt'}
+                  </button>
+                )}
+                {hasAccess && !isEditingPrompt && (
+                  <button
+                    onClick={() => setShowPrompt(!showPrompt)}
+                    className="text-xs text-lo hover:text-mid transition-colors underline underline-offset-2"
+                  >
+                    {showPrompt ? 'Hide' : 'Reveal'}
+                  </button>
+                )}
+              </div>
             </div>
 
-            {hasAccess && showPrompt ? (
+            {isOwner && isEditingPrompt ? (
+              <div>
+                <textarea
+                  value={editPromptText}
+                  onChange={(e) => setEditPromptText(e.target.value)}
+                  rows={10}
+                  className="w-full bg-surface [border-width:0.5px] border-white/[0.07] text-xs text-mid font-mono p-4 resize-none focus:outline-none focus:border-white/[0.2] leading-relaxed"
+                  placeholder="Enter your system prompt here…"
+                />
+                {saveError && (
+                  <p className="text-xs text-mid mt-2 leading-relaxed">{saveError}</p>
+                )}
+                <div className="flex gap-2 mt-2">
+                  <button
+                    onClick={handleSavePrompt}
+                    disabled={saveStatus === 'pending' || !arkivWallet}
+                    className="py-1.5 px-4 bg-hi text-canvas text-xs font-medium hover:bg-mid disabled:opacity-30 disabled:cursor-not-allowed transition-colors duration-150"
+                  >
+                    {saveStatus === 'pending' ? 'Saving…' : 'Save'}
+                  </button>
+                  <button
+                    onClick={() => {
+                      setIsEditingPrompt(false)
+                      setSaveStatus('idle')
+                      setSaveError('')
+                    }}
+                    className="py-1.5 px-4 [border-width:0.5px] border-white/[0.14] text-lo text-xs hover:text-mid transition-colors duration-150"
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            ) : hasAccess && showPrompt ? (
               <div className="[border-width:0.5px] border-white/[0.07] relative">
                 <pre className="text-xs text-mid font-mono whitespace-pre-wrap break-words leading-relaxed p-5">
                   {soul.prompt ?? 'No prompt content found.'}
@@ -209,7 +273,7 @@ export default function SoulDetailPage() {
                 <Lock size={14} strokeWidth={1} className="text-lo" />
                 <p className="text-xs text-lo text-center">
                   {isOwner
-                    ? 'You are the creator — connect to reveal.'
+                    ? 'Click "Set Prompt" above to add a system prompt.'
                     : 'Acquire a license to access the system prompt.'}
                 </p>
               </div>
