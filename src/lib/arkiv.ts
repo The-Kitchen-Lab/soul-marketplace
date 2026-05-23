@@ -8,14 +8,14 @@ export const publicClient = createPublicClient({
   transport: http(),
 })
 
-export function createArkivWalletClient(address: `0x${string}`) {
-  if (typeof window === 'undefined' || !window.ethereum) {
-    throw new Error('No browser wallet detected')
-  }
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function createArkivWalletClient(address: `0x${string}`, provider?: any) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const eip1193 = provider ?? (typeof window !== 'undefined' ? (window as any).ethereum : null)
+  if (!eip1193) throw new Error('No browser wallet detected')
   return createWalletClient({
     chain: braga,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    transport: custom(window.ethereum as any),
+    transport: custom(eip1193),
     account: address,
   })
 }

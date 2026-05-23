@@ -14,11 +14,9 @@ function entityToLicense(entity: ArkivEntity): LicenseEntity {
   const raw = entity as unknown as Record<string, unknown>
 
   // expiresAt stored as unix timestamp in attributes (preferred).
-  // expiresAtBlock is a block number, not a timestamp — don't use it as one.
+  // Never fall back to entity.metadata.expiresAt — that field is a block number, not a timestamp.
   const expiresAtAttr = get('expiresAt')
-  const expiresAt = expiresAtAttr
-    ? Number(expiresAtAttr)
-    : entity.metadata?.expiresAt ?? 0
+  const expiresAt = expiresAtAttr ? Number(expiresAtAttr) : 0
 
   return {
     key: entity.key,
