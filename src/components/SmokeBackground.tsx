@@ -50,7 +50,9 @@ class Renderer {
 
   constructor(canvas: HTMLCanvasElement, fragmentSource: string) {
     this.canvas = canvas
-    this.gl = canvas.getContext('webgl2') as WebGL2RenderingContext
+    const ctx = canvas.getContext('webgl2')
+    if (!ctx) throw new Error('WebGL2 not supported')
+    this.gl = ctx
     this.setup(fragmentSource)
     this.init()
   }
@@ -144,7 +146,12 @@ export const SmokeBackground: React.FC<SmokeBackgroundProps> = ({ smokeColor = '
   useEffect(() => {
     if (!canvasRef.current) return
     const canvas = canvasRef.current
-    const renderer = new Renderer(canvas, fragmentShaderSource)
+    let renderer: Renderer
+    try {
+      renderer = new Renderer(canvas, fragmentShaderSource)
+    } catch {
+      return
+    }
     rendererRef.current = renderer
 
     const handleResize = () => renderer.updateScale()

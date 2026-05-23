@@ -112,7 +112,7 @@ export default function MarketplacePage() {
           {Array.from({ length: 6 }).map((_, i) => (
             <div
               key={i}
-              className="h-44 bg-surface [border-width:0.5px] border-white/[0.05]"
+              className="h-44 bg-surface/40 backdrop-blur-md [border-width:0.5px] border-white/[0.05]"
             />
           ))}
         </div>

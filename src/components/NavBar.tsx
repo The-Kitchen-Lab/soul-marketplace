@@ -19,7 +19,7 @@ export function NavBar() {
 
         {/* Left: logotype + nav */}
         <div className="flex items-center gap-10">
-          <Link href="/" className="text-hi font-medium text-sm tracking-tight">
+          <Link href="/" className="text-hi font-medium text-sm tracking-tight [text-shadow:0_1px_6px_rgba(0,0,0,0.9)]">
             SoulStore
           </Link>
 
@@ -28,8 +28,8 @@ export function NavBar() {
               <Link
                 key={href}
                 href={href}
-                className={`text-xs tracking-wide transition-colors duration-150 ${
-                  pathname === href ? 'text-hi' : 'text-mid hover:text-hi'
+                className={`text-xs tracking-wide transition-colors duration-150 [text-shadow:0_1px_6px_rgba(0,0,0,0.9)] ${
+                  pathname === href ? 'text-hi' : 'text-white/60 hover:text-hi'
                 }`}
               >
                 {label}
@@ -50,7 +50,7 @@ export function NavBar() {
                 <button
                   type="button"
                   onClick={openConnectModal}
-                  className="[border-width:0.5px] border-white/20 hover:border-white/40 px-3 h-7 text-2xs tracking-label uppercase text-mid hover:text-hi transition-colors duration-150"
+                  className="[border-width:0.5px] border-white/40 hover:border-white/70 px-3 h-7 text-2xs tracking-label uppercase text-white/60 hover:text-hi transition-colors duration-150 [text-shadow:0_1px_6px_rgba(0,0,0,0.9)]"
                 >
                   Connect
                 </button>
@@ -61,7 +61,7 @@ export function NavBar() {
               <button
                 type="button"
                 onClick={openAccountModal}
-                className="font-mono text-xs text-mid hover:text-hi transition-colors duration-150"
+                className="font-mono text-xs text-white/60 hover:text-hi transition-colors duration-150 [text-shadow:0_1px_6px_rgba(0,0,0,0.9)]"
               >
                 {account.displayName}
               </button>
