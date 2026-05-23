@@ -40,7 +40,7 @@ export const SAMPLE_SOULS: Soul[] = [
     name: 'Deep Diver',
     category: 'research',
     description: 'Synthesizes academic papers and web sources into structured research briefs.',
-    price: '1.49',
+    price: '0.99',
     creator: '0xResearch1',
   },
   {
@@ -48,7 +48,7 @@ export const SAMPLE_SOULS: Soul[] = [
     name: 'Fact Checker',
     category: 'research',
     description: 'Cross-references claims against primary sources and flags contradictions.',
-    price: '0.99',
+    price: '0.79',
     creator: '0xResearch2',
   },
 
@@ -76,7 +76,7 @@ export const SAMPLE_SOULS: Soul[] = [
     name: 'Excel Oracle',
     category: 'analyst',
     description: 'Interprets spreadsheet data and produces actionable financial summaries.',
-    price: '1.29',
+    price: '0.99',
     creator: '0xAnalyst1',
   },
   {
@@ -84,7 +84,7 @@ export const SAMPLE_SOULS: Soul[] = [
     name: 'KPI Tracker',
     category: 'analyst',
     description: 'Monitors business metrics and surfaces anomalies before they become problems.',
-    price: '1.49',
+    price: '1.29',
     creator: '0xAnalyst2',
   },
 
@@ -94,7 +94,7 @@ export const SAMPLE_SOULS: Soul[] = [
     name: 'Threat Modeler',
     category: 'security',
     description: 'Maps attack surfaces and generates STRIDE threat models for your architecture.',
-    price: '1.99',
+    price: '1.29',
     creator: '0xSec1',
   },
   {
@@ -102,7 +102,7 @@ export const SAMPLE_SOULS: Soul[] = [
     name: 'Smart Contract Auditor',
     category: 'security',
     description: 'Scans Solidity and Cairo contracts for reentrancy, overflows, and access issues.',
-    price: '2.49',
+    price: '1.49',
     creator: '0xSec2',
   },
 
@@ -112,7 +112,7 @@ export const SAMPLE_SOULS: Soul[] = [
     name: 'GTM Advisor',
     category: 'strategy',
     description: 'Builds go-to-market playbooks tailored to your product stage and audience.',
-    price: '1.49',
+    price: '1.29',
     creator: '0xStrategy1',
   },
   {
@@ -120,7 +120,7 @@ export const SAMPLE_SOULS: Soul[] = [
     name: 'Competitive Scout',
     category: 'strategy',
     description: 'Profiles competitors and identifies defensible positioning opportunities.',
-    price: '1.29',
+    price: '0.99',
     creator: '0xStrategy2',
   },
 
@@ -148,7 +148,7 @@ export const SAMPLE_SOULS: Soul[] = [
     name: 'Root Cause Hunter',
     category: 'analysis',
     description: 'Applies five-why and fishbone methods to diagnose complex system failures.',
-    price: '1.29',
+    price: '0.99',
     creator: '0xAnalysis1',
   },
   {
@@ -156,7 +156,7 @@ export const SAMPLE_SOULS: Soul[] = [
     name: 'Trend Spotter',
     category: 'analysis',
     description: 'Detects emerging signals in noisy datasets before consensus forms.',
-    price: '1.49',
+    price: '1.29',
     creator: '0xAnalysis2',
   },
 
@@ -166,7 +166,7 @@ export const SAMPLE_SOULS: Soul[] = [
     name: 'Quant Strategist',
     category: 'trading',
     description: 'Backtests systematic strategies across crypto and equity markets.',
-    price: '2.99',
+    price: '1.49',
     creator: '0xTrading1',
   },
   {
@@ -174,7 +174,7 @@ export const SAMPLE_SOULS: Soul[] = [
     name: 'Risk Guard',
     category: 'trading',
     description: 'Monitors open positions and alerts on drawdown thresholds in real time.',
-    price: '1.99',
+    price: '1.29',
     creator: '0xTrading2',
   },
 
@@ -184,7 +184,7 @@ export const SAMPLE_SOULS: Soul[] = [
     name: 'Pipeline Builder',
     category: 'devops',
     description: 'Generates CI/CD workflows for GitHub Actions, GitLab, and CircleCI.',
-    price: '0.99',
+    price: '0.79',
     creator: '0xDevOps1',
   },
   {
@@ -192,7 +192,7 @@ export const SAMPLE_SOULS: Soul[] = [
     name: 'Incident Commander',
     category: 'devops',
     description: 'Coordinates on-call runbooks and post-mortem templates during outages.',
-    price: '1.29',
+    price: '0.99',
     creator: '0xDevOps2',
   },
 
