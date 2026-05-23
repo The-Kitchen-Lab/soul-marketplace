@@ -302,10 +302,10 @@ export default function SoulDetailPage() {
                   ) : (
                     <button
                       onClick={handleLicense}
-                      disabled={licenseStatus === 'pending'}
+                      disabled={licenseStatus === 'pending' || !arkivWallet}
                       className="w-full py-2.5 bg-hi text-canvas text-xs font-medium hover:bg-mid disabled:opacity-30 disabled:cursor-not-allowed transition-colors duration-150"
                     >
-                      {licenseStatus === 'pending' ? 'Creating…' : 'Acquire License'}
+                      {licenseStatus === 'pending' ? 'Creating…' : !arkivWallet ? 'Wallet loading…' : 'Acquire License'}
                     </button>
                   )}
 
