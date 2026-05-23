@@ -32,7 +32,7 @@ export function SoulCard({ soul }: { soul: SoulEntity }) {
 
   return (
     <Link href={`/soul/${encodeURIComponent(soul.key)}`} className="block group">
-      <div className="bg-surface hover:bg-surface-hi [border-width:0.5px] border-white/[0.07] hover:border-white/[0.14] p-5 transition-colors duration-150 h-full flex flex-col">
+      <div className="bg-surface/60 hover:bg-surface-hi/70 backdrop-blur-sm [border-width:0.5px] border-white/[0.07] hover:border-white/[0.14] p-5 transition-colors duration-150 h-full flex flex-col">
         {/* Category row */}
         <div className="flex items-center justify-between mb-5">
           <div className="flex items-center gap-1.5">

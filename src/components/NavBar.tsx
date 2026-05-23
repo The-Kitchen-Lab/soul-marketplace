@@ -14,7 +14,7 @@ export function NavBar() {
   const pathname = usePathname()
 
   return (
-    <nav className="sticky top-0 z-50 [border-bottom-width:0.5px] border-white/[0.07] bg-canvas/95 backdrop-blur-sm">
+    <nav className="sticky top-0 z-50 [border-bottom-width:0.5px] border-white/[0.07]">
       <div className="max-w-7xl mx-auto px-6 h-12 flex items-center justify-between">
 
         {/* Left: logotype + nav */}
@@ -50,7 +50,7 @@ export function NavBar() {
                 <button
                   type="button"
                   onClick={openConnectModal}
-                  className="[border-width:0.5px] border-white/[0.07] hover:border-white/[0.14] px-3 h-7 text-2xs tracking-label uppercase text-lo hover:text-mid transition-colors duration-150"
+                  className="[border-width:0.5px] border-white/20 hover:border-white/40 px-3 h-7 text-2xs tracking-label uppercase text-mid hover:text-hi transition-colors duration-150"
                 >
                   Connect
                 </button>
