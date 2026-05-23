@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from 'react'
 import { SoulCard } from '@/components/SoulCard'
 import { querySouls } from '@/lib/souls'
 import { SOUL_CATEGORIES } from '@/lib/constants'
+import { SAMPLE_SOULS } from '@/data/souls'
 import type { SoulEntity } from '@/types'
 
 export default function MarketplacePage() {
@@ -20,7 +21,24 @@ export default function MarketplacePage() {
         category: selectedCategory || undefined,
         limit: 48,
       })
-      setSouls(results)
+      if (results.length > 0) {
+        setSouls(results)
+      } else {
+        const filtered = selectedCategory
+          ? SAMPLE_SOULS.filter((s) => s.category === selectedCategory)
+          : SAMPLE_SOULS
+        setSouls(
+          filtered.map((s) => ({
+            key: s.id,
+            name: s.name,
+            description: s.description,
+            category: s.category,
+            price: s.price,
+            creator: s.creator,
+            owner: s.creator,
+          }))
+        )
+      }
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Failed to load souls')
     } finally {
