@@ -1,4 +1,4 @@
-export const PROJECT_ATTRIBUTE = 'soul-marketplace'
+export const PROJECT_ATTRIBUTE = 'soulstore'
 
 export const BRAGA_RPC = 'https://braga.hoodi.arkiv.network/rpc'
 export const BRAGA_EXPLORER = 'https://explorer.braga.hoodi.arkiv.network'
@@ -11,6 +11,11 @@ export const SOUL_CATEGORIES = [
   { id: 'analyst', label: 'Analyst', description: 'Finance & data analysis' },
   { id: 'security', label: 'Security', description: 'Threat modeling & audits' },
   { id: 'strategy', label: 'Strategy', description: 'Business & planning' },
+  { id: 'debate', label: 'Debate', description: 'Argumentation & discourse' },
+  { id: 'analysis', label: 'Analysis', description: 'Deep research & insights' },
+  { id: 'trading', label: 'Trading', description: 'Markets & trading strategies' },
+  { id: 'devops', label: 'DevOps', description: 'Infrastructure & automation' },
+  { id: 'writing', label: 'Writing', description: 'Content & copywriting' },
   { id: 'other', label: 'Other', description: 'General purpose' },
 ]
 

@@ -104,7 +104,7 @@ export default function SoulDetailPage() {
           onClick={() => router.push('/')}
           className="text-xs text-lo hover:text-mid underline underline-offset-2 transition-colors"
         >
-          Back to marketplace
+          Back to store
         </button>
       </div>
     )
@@ -120,7 +120,7 @@ export default function SoulDetailPage() {
         className="flex items-center gap-1.5 text-xs text-lo hover:text-mid transition-colors duration-150 mb-10"
       >
         <ArrowLeft size={11} strokeWidth={1.5} />
-        Marketplace
+        SoulStore
       </button>
 
       <div className="grid md:grid-cols-3 gap-8">

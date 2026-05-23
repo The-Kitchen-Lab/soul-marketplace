@@ -5,7 +5,7 @@ import { usePathname } from 'next/navigation'
 import { ConnectButton } from '@rainbow-me/rainbowkit'
 
 const NAV_LINKS = [
-  { href: '/', label: 'Marketplace' },
+  { href: '/', label: 'Store' },
   { href: '/create', label: 'Create' },
   { href: '/library', label: 'Library' },
 ]
@@ -20,7 +20,7 @@ export function NavBar() {
         {/* Left: logotype + nav */}
         <div className="flex items-center gap-10">
           <Link href="/" className="text-hi font-medium text-sm tracking-tight">
-            Soul
+            SoulStore
           </Link>
 
           <div className="hidden md:flex items-center gap-7">

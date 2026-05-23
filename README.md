@@ -1,8 +1,8 @@
-# Soul Marketplace
+# SoulStore
 
 > *AI agents whose soul you actually own.*
 
-Soul Marketplace is a Web3-native platform where AI system prompts live as on-chain entities on Arkiv. The creator is immutably recorded. Licenses expire. Forks preserve the attribution chain. No platform owns your agents — you do.
+SoulStore is a Web3-native platform where AI system prompts live as on-chain entities on Arkiv. The creator is immutably recorded. Licenses expire. Forks preserve the attribution chain. No platform owns your agents — you do.
 
 **Theme:** AI — agents whose memory you actually own  
 **Network:** Arkiv Braga Testnet  
@@ -32,7 +32,7 @@ When you fork a Soul, the `forkedFrom` attribute points to the original entity k
 
 ### PROJECT_ATTRIBUTE
 
-Every entity and every query uses the attribute key `app` with value `soul-marketplace`. This namespaces all data to this project on the shared Arkiv network.
+Every entity and every query uses the attribute key `app` with value `soulstore`. This namespaces all data to this project on the shared Arkiv network.
 
 ---
 
@@ -47,8 +47,8 @@ Every entity and every query uses the attribute key `app` with value `soul-marke
 ### Install
 
 ```bash
-git clone https://github.com/The-Kitchen-Lab/soul-marketplace
-cd soul-marketplace
+git clone https://github.com/The-Kitchen-Lab/soulstore
+cd soulstore
 npm install
 ```
 
@@ -83,10 +83,10 @@ Open [http://localhost:3000](http://localhost:3000)
 ## Architecture
 
 ```
-soul-marketplace/
+soulstore/
 ├── src/
 │   ├── lib/
-│   │   ├── constants.ts     # PROJECT_ATTRIBUTE = "soul-marketplace"
+│   │   ├── constants.ts     # PROJECT_ATTRIBUTE = "soulstore"
 │   │   ├── arkiv.ts         # Arkiv public + wallet clients
 │   │   ├── souls.ts         # Soul entity CRUD + attribution chain
 │   │   └── licenses.ts      # License entity CRUD + expiry checks
@@ -108,7 +108,7 @@ soul-marketplace/
 
 ```
 SOUL entity attributes:
-  app          = "soul-marketplace"   ← PROJECT_ATTRIBUTE (required)
+  app          = "soulstore"   ← PROJECT_ATTRIBUTE (required)
   type         = "soul"
   name         = "Senior Rust Engineer"
   description  = "..."
@@ -117,7 +117,7 @@ SOUL entity attributes:
   forkedFrom   = <parent entity key>  ← optional, builds attribution chain
 
 LICENSE entity attributes:
-  app          = "soul-marketplace"   ← PROJECT_ATTRIBUTE (required)
+  app          = "soulstore"   ← PROJECT_ATTRIBUTE (required)
   type         = "license"
   soulKey      = <soul entity key>    ← relationship via shared key
   soulName     = "..."
@@ -142,9 +142,9 @@ In a production deployment, integrate [Lit Protocol](https://litprotocol.com/) o
 
 - **Theme:** AI
 - **Network:** Arkiv Braga Testnet
-- **PROJECT_ATTRIBUTE:** `soul-marketplace` (on every entity and query)
+- **PROJECT_ATTRIBUTE:** `soulstore` (on every entity and query)
 - **Entity types:** Soul, License
-- **GitHub:** [github.com/The-Kitchen-Lab/soul-marketplace](https://github.com/The-Kitchen-Lab/soul-marketplace)
+- **GitHub:** [github.com/The-Kitchen-Lab/soulstore](https://github.com/The-Kitchen-Lab/soulstore)
 - **Demo:** [DEPLOYING...]
 
 ---

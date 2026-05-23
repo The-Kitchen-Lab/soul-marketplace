@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import type { SoulEntity } from '@/types'
 import { SOUL_CATEGORIES } from '@/lib/constants'
-import { Terminal, Search, Pen, TrendingUp, Shield, Target, Grid3X3, GitFork } from 'lucide-react'
+import { Terminal, Search, Pen, TrendingUp, Shield, Target, Grid3X3, GitFork, MessageSquare, BarChart2, CandlestickChart, Server, FileText } from 'lucide-react'
 
 const CATEGORY_ICONS: Record<string, React.ElementType> = {
   coding: Terminal,
@@ -12,6 +12,11 @@ const CATEGORY_ICONS: Record<string, React.ElementType> = {
   analyst: TrendingUp,
   security: Shield,
   strategy: Target,
+  debate: MessageSquare,
+  analysis: BarChart2,
+  trading: CandlestickChart,
+  devops: Server,
+  writing: FileText,
   other: Grid3X3,
 }
 

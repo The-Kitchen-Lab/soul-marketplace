@@ -11,7 +11,7 @@ const inter = Inter({
 })
 
 export const metadata: Metadata = {
-  title: 'Soul Marketplace — AI Prompts You Actually Own',
+  title: 'SoulStore — AI Prompts You Actually Own',
   description:
     'Buy, sell, and fork AI system prompts as on-chain entities. Immutable attribution. Time-limited licenses. Zero platform lock-in.',
 }

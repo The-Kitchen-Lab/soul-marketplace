@@ -81,7 +81,7 @@ export default function LibraryPage() {
             href="/"
             className="text-xs text-lo hover:text-mid underline underline-offset-2 transition-colors"
           >
-            Browse the marketplace
+            Browse the store
           </Link>
         </div>
       ) : (
